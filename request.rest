@@ -1,0 +1,99 @@
+#admin signup
+
+
+Post http://localhost:5000/v1/user/signupAdmin
+Content-Type:  application/json
+
+{
+   "first_name": "mohamed  ammine",
+  "last_name": "rabah sidhoum",
+  "birth": "1638104911785",
+  "password": "12345678",
+  "email": "km_rabahsidhoum@esi.dz",
+  "phone_number": "0699052891" 
+}
+
+
+
+###student signup
+
+
+Post http://localhost:5000/v1/user/signupStudent
+Content-Type:  application/json
+
+{
+   "first_name": "hamza",
+  "last_name": "bendahman",
+  "birth": "1638104911785",
+  "password": "12345678",
+  "email": "hamza0bendahmane@gmail.com",
+  "phone_number": "0699052891" 
+}
+
+
+###student signin
+
+
+Post http://localhost:5000/v1/user/loginStudent
+Content-Type:  application/json
+
+{
+  "email" : "hamza0bendahmane@gmail.com",
+  "password" : "12345678"
+}
+
+
+###student signin
+
+
+Put http://localhost:5000/v1/user/updateProfilePicture
+Content-Type:  application/json
+
+{
+  "email" : "hamza0bendahmane@gmail.com",
+  "password" : "12347678"
+}
+
+
+
+###forgot password
+
+
+Post http://localhost:5000/v1/user/forgotPassword
+Content-Type:  application/json
+
+{
+  "email" : "hamza0bendahmane@gmail.com",
+  "password" : "12347678"
+}
+
+
+
+
+###verifyEmail
+
+
+
+Post http://localhost:5000/v1/user/verifyEmail
+Content-Type:  application/json
+
+{
+  "email" : "hamza0bendahmane@gmail.com",
+  "code" : "497476"
+}
+
+
+
+
+###changePassword
+
+
+
+Put http://localhost:5000/v1/user/changePassword
+Content-Type:  application/json
+
+{
+  "email" : "hamza0bendahmane@gmail.com",
+  "code" : "678936",
+  "password" : "batjdhata"
+}

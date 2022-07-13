@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "admin_all",
+    "password": "password",
+    "database": "djihadevétirinaire",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "test":  {
+    "username": "admin_all",
+    "password": "password",
+    "database": "djihadevétirinaire",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "admin_all",
+    "password": "password",
+    "database": "djihadevétirinaire",
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+}
