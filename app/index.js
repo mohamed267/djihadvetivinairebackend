@@ -32,13 +32,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const cron = require('node-cron');
-const   admin = require("firebase-admin");
-const  serviceAccount = require("./config/firebase-config.json");
 
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+
 
 
 

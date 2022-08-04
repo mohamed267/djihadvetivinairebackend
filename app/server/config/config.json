@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "admin_all",
-    "password": "password",
-    "database": "djihadevétirinaire",
-    "host": "localhost",
+    "username": "freedb_admin_djihad",
+    "password": "WsCj@t9#&a4AfJH",
+    "database": "freedb_gjihadvetirinaire",
+    "host": "sql.freedb.tech",
     "dialect": "mysql"
   },
   "test":  {
@@ -14,7 +14,7 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "admin_all",
+    "username": "admin_al",
     "password": "password",
     "database": "djihadevétirinaire",
     "host": "localhost",
