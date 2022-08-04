@@ -18,10 +18,11 @@ const Region = db.region
 
 
 exports.initiateRegion = catchAsync(async(req , res , next)=>{
-    let region_id = req.query.region_id
+    console.log("data is ", req.body)
 
-    let data = req.body
-
+    let {region_id , createdAt , updatedAt , wilayas , deleted_wilayas , ...data} = req.body
+    
+    region_id = req.query.region_id
     let isPost = req.method == "POST"
     var form = null
     let region ;
@@ -33,6 +34,26 @@ exports.initiateRegion = catchAsync(async(req , res , next)=>{
         await region.save()
     }
 
+    
+    req.inst = {...req.inst , region}
+    next()
+})
+
+exports.handleWilayas = catchAsync(async(req , res , next)=>{
+    let region  = req.inst.region
+    let {wilayas , deleted_wilayas } = req.body
+
+    console.log("deleted query ",deleted_wilayas )
+
+    
+    deleted_wilayas && await Promise.all(deleted_wilayas.map(async wilaya=>{
+        await region.removeWilaya(wilaya)
+    }))
+
+    
+    wilayas && await Promise.all(wilayas.map(async wilaya=>{
+        await region.addWilaya(wilaya)
+    }))
     
     req.inst = {...req.inst , region}
     next()

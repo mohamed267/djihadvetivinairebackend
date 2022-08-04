@@ -3,17 +3,22 @@ const {
   } = require('sequelize');
   
   module.exports = (sequelize, DataTypes) => {
-    class number_field extends Model {
+    class daira extends Model {
       static associate(models) {
       };
     }
-    number_field.init({
-      number_field_id: {
+    daira.init({
+        daira_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
       },
-      field_value : DataTypes.REAL
+      daira_name: DataTypes.STRING,
+      daira_slug : {
+        type : DataTypes.STRING,
+        defaultValue :  "wilaya"
+      },
+      daira_number : DataTypes.INTEGER
     }, {
         sequelize,
         timestamps: true
@@ -21,5 +26,5 @@ const {
     
   
   
-    return number_field;
+    return daira;
   };

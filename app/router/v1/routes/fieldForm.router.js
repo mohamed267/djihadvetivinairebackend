@@ -4,7 +4,7 @@ const {
 } = require("../../../controllers/authController");
 
 const {
-    fetchFieldForm  , getFieldForm , deleteFieldForm 
+    fetchFieldForm  , getFieldForms , deleteFieldForm , getFieldForm 
 } = require("../../../controllers/fieldFormController")
 
 const {
@@ -19,10 +19,12 @@ const router = express.Router();
 router.use(extractToken,protect )
 
 
-router.route("/").get(getFieldForm)
+router.route("/").get(getFieldForms)
 .post(handleGroup ,initaiteFormField,handleOptions,   fetchFieldForm)
 .put(handleGroup ,initaiteFormField,handleOptions,   fetchFieldForm)
 .delete(deleteFieldForm)
+
+router.route("/single").get(getFieldForm)
 
 
 

@@ -10,6 +10,15 @@ const Config=  db.config
 const FieldGroub = db.field_group
 const FormField = db.form_field
 const FieldOption  = db.field_option
+const DateField =  db.date_field
+const BooleanField = db.boolean_field
+const NumberField = db.number_field
+const StringField = db.string_field
+const TextField = db.text_field
+const AddressField = db.address_field
+
+
+
 
 
 
@@ -29,7 +38,7 @@ const Apifeatures = require('../utils/apiFeatures')
 exports.fetchFieldForm  = catchAsync(async(req , res , next)=>{
     let form_field =  req.inst.form_field
     form_field = await FormField.findByPk(form_field.dataValues.form_field_id  ,{
-        include : [FieldGroub , FieldOption]
+        include : [FieldGroub , FieldOption ,DateField , BooleanField , NumberField , StringField , TextField , AddressField]
     })
     
     tokenInterceptor(req, res, next, {
@@ -49,6 +58,7 @@ exports.fetchFieldForm  = catchAsync(async(req , res , next)=>{
 exports.deleteFieldForm  = catchAsync(async(req , res , next)=>{
     const features = new Apifeatures(req.query).filter().queryObj
     await FormField.destroy({...features})
+    
 
     // client_demand = await ClientDemend.destroy({where :  {client_demand_id}})
 
@@ -60,19 +70,31 @@ exports.deleteFieldForm  = catchAsync(async(req , res , next)=>{
 })
 
 
-exports.getFieldForm = catchAsync(async(req, res , next)=>{
+exports.getFieldForms = catchAsync(async(req, res , next)=>{
     const features = new Apifeatures(req.query).filter().sort().paginate().queryObj
 
-    const {rows , count} = await FormField.findAndCountAll({...features})
+    const field_forms = await FormField.findAll({...features ,  include : 
+        [FieldGroub , FieldOption ,DateField , BooleanField , NumberField , StringField , TextField , AddressField]})
     
     
     tokenInterceptor(req, res, next, {
         status: "success",
         message: `field_forms`,
-        data:  {
-            count,
-            field_forms : rows
-        } 
+        data:  field_forms
+    })
+})
+
+
+exports.getFieldForm = catchAsync(async(req, res , next)=>{
+    const features = new Apifeatures(req.query).filter().sort().paginate().queryObj
+
+    const field_form = await FormField.findOne({...features ,  include : [FieldGroub , FieldOption,DateField , BooleanField , NumberField , StringField , TextField , AddressField]})
+    
+    
+    tokenInterceptor(req, res, next, {
+        status: "success",
+        message: `field_forms`,
+        data:  field_form
     })
 })
 

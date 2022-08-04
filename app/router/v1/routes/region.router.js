@@ -5,9 +5,9 @@ const {
 
 
 
-const {fetchRegion , deleteRegion , getRegions} = require("../../../controllers/regionController")
+const {fetchRegion , deleteRegion , getRegions , getRegion} = require("../../../controllers/regionController")
 const {
-    initiateRegion
+    initiateRegion , handleWilayas
 } = require("../../../middlewares/regionMiddleWares")
 
 const {handleSendEmail} = require("../../../middlewares/email")
@@ -15,13 +15,15 @@ const {handleSendEmail} = require("../../../middlewares/email")
 const router = express.Router();
 
 
+router.route("/").get(getRegions)
 router.use(extractToken,protect )
 
-
-router.route("/").get(getRegions)
-.post(initiateRegion , fetchRegion)
-.put(initiateRegion, fetchRegion)
+router.route("/")
+.post(initiateRegion , handleWilayas , fetchRegion)
+.put(initiateRegion, handleWilayas , fetchRegion)
 .delete(deleteRegion)
+
+router.route("/single").get(getRegion)
 
 
 

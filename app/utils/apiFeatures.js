@@ -18,7 +18,7 @@ class Apifeatures {
     filter() {
         // //normal filter
         let instanseReq = { ...this.req }
-        const exludedFields = ["services" ,  "page", "sort", "limit", "fields", "select", "intervaltime", "search"];
+        const exludedFields = ["services" , "filter" ,  "page", "sort", "limit", "fields", "select", "intervaltime", "search"];
         exludedFields.forEach(field => delete instanseReq[field]);
         // //filtering > and >= < <=
         let globFilt = {}

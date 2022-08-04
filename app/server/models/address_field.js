@@ -14,8 +14,8 @@ const {
         primaryKey: true
       },
       address : DataTypes.TEXT,
-      longtitude : DataTypes.FLOAT,
-      latitude : DataTypes.FLOAT
+      lng : DataTypes.FLOAT,
+      lat : DataTypes.FLOAT
     }, {
         sequelize,
         timestamps: true

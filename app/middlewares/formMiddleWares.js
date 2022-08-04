@@ -32,9 +32,8 @@ exports.handleFields = catchAsync(async(req , res , next)=>{
 })
 
 exports.handleRegion = catchAsync(async(req , res , next)=>{
-    let region_id = req.body.region_id
+    let region_id = req.body.region_id 
     let region = await Region.findByPk(region_id)
-
     req.inst = {...req.inst  , region }
     next()
 })
@@ -45,63 +44,87 @@ exports.initiateform = catchAsync(async(req , res , next)=>{
     let fields = req.inst.fields
     let region = req.inst.region
     let form_id = req.query.form_id
-    const farm_name = req.body.farm_name
-    const date = req.body.date
-    let formData = req.body.form
+    console.log("query gg ", req.body)
+    let  {form , region_id , ...body} =  req.body
+    let formData = form
+
 
     let isPost = req.method == "POST"
-    var form = null
+    form = null
     if(isPost){
-        form = await region.createForm({farm_name  , date })
+        form = await region.createForm(body)
     }else{
         form = await Form.findByPk(form_id)
-        form.set({farm_name  , date })
+        form.set(body)
         await form.save()
     }
+
 
     formData && await(Promise.all(Object.keys(formData).map(async field=>{
         if(isPost){
             if(fields[field]==="BOOLEAN"){
                 await form.createBoolean_field({field_value :formData[field], form_field_id : field })
-            }else if(fields[field]==="STRING" || fields[field]==="SELECT"){
-                await form.createString_field({field_value :formData[field]  , form_field_id : field})
             }else if(fields[field]==="TEXT"){
                 await form.createText_field({field_value :formData[field]   ,form_field_id : field})
             }else if(fields[field]==="NUMBER"){
                 await form.createNumber_field({field_value :formData[field]  ,form_field_id : field })
+            }else if(fields[field]==="GPS"){
+                await form.createAddress_field({...formData[field]  ,form_field_id : field })
             }else if(fields[field]==="ADDRESS"){
                 await form.createAddress_field({...formData[field] , form_field_id : field } )
             }else if(fields[field]==="DATE"){
                 await form.createDate_field({field_value :formData[field]  ,  form_field_id : field})
+            }else if(fields[field]==="SELECT"){
+                await form.createString_field({field_value :formData[field].field_option_value  ,  form_field_id : field})
+            }else if(fields[field]==="COMPLEXSELECT"){
+                await form.createString_field({
+                    field_value :formData[field].field_option_value + "_*_"+ formData[field].extra ,  
+                    form_field_id : field})
+            }else if(fields[field]==="STRING"){
+                await form.createString_field({
+                    field_value :formData[field] ,  
+                    form_field_id : field})
             }
-        }else{
+        }
+        
+        else{
 
             if(fields[field]==="BOOLEAN"){
-                let res = await form.getBoolean_fields()
+                let res = await form.getBoolean_fields({where : {form_field_id : field}})
                 res = res[0];
                 res && res.set({field_value :formData[field] }) && await res.save()
-            }else if(fields[field]==="STRING" || fields[field]==="SELECT"){               
-                let res = await form.getString_fields()
+            }else if(fields[field]==="STRING"){               
+                let res = await form.getString_fields({where : {form_field_id : field}})
                 res = res[0];
                 res && res.set({field_value :formData[field] }) && await res.save()
            }else if(fields[field]==="TEXT"){
-                let res = await form.getText_fields()
+                let res = await form.getText_fields({where : {form_field_id : field}})
                 res = res[0];
                 res && res.set({field_value :formData[field] }) && await res.save()
             }else if(fields[field]==="NUMBER"){
                 let res = await form.getNumber_fields()
                 res = res[0];
                 res && res.set({field_value :formData[field] }) && await res.save()
-            }else if(fields[field]==="ADDRESS"){
-                let res = await form.getAddress_fields()
+            }else if(fields[field]==="ADDRESS" || fields[field]==="GPS"){
+                let res = await form.getAddress_fields({where : {form_field_id : field}})
                 res = res[0];
+                console.log("res ", res)
                 res && res.set(formData[field]) && await res.save()
             }else if(fields[field]==="DATE"){
-                let res = await form.getDate_fields()
+                let res = await form.getDate_fields({where : {form_field_id : field}})
                 res = res[0];
                 res && res.set({field_value :formData[field] }) && await res.save()
+            }else if(fields[field]==="COMPLEXSELECT"){ 
+                let res = await form.getString_fields({where : {form_field_id : field}})
+                res = res[0];
+                res && res.set({field_value :formData[field].field_option_value + "_*_"+ formData[field].extra  }) && await res.save()
+            }else if(fields[field]==="SELECT"){ 
+                let res = await form.getString_fields({where : {form_field_id : field}})
+                res = res[0];
+                res && res.set({field_value :formData[field].field_option_value  }) && await res.save()
             }
         }
+        
     })))
 
     req.inst = {...req.inst , form}

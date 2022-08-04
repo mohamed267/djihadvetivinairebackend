@@ -3,17 +3,22 @@ const {
   } = require('sequelize');
   
   module.exports = (sequelize, DataTypes) => {
-    class number_field extends Model {
+    class commune extends Model {
       static associate(models) {
       };
     }
-    number_field.init({
-      number_field_id: {
+    commune.init({
+        commune_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
       },
-      field_value : DataTypes.REAL
+      commune_name: DataTypes.STRING,
+      commune_slug : {
+        type : DataTypes.STRING,
+        defaultValue :  "wilaya"
+      },
+      commune_number : DataTypes.INTEGER
     }, {
         sequelize,
         timestamps: true
@@ -21,5 +26,5 @@ const {
     
   
   
-    return number_field;
+    return commune;
   };

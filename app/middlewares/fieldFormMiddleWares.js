@@ -6,7 +6,7 @@ const AppError = require("../utils/appError")
 const { singleUpload } = require('../controllers/uploadController')
 /*models */
 const db = require("../server/models/index")
-const FieldGroub = db.field_group
+const FieldGroup = db.field_group
 const FormField = db.form_field
 
 exports.initTransaction = catchAsync(async(req , res , next)=>{
@@ -16,12 +16,13 @@ exports.initTransaction = catchAsync(async(req , res , next)=>{
 })
 
 exports.handleGroup = catchAsync(async(req , res , next)=>{
+    console.log(req.body)
     const {field_group_name , field_group_slug} = req.body
     let field_group = null
-    if(field_group_slug){
-        field_group =  await FieldGroub.findOne({where : {field_group_slug}})
+    if(field_group_name){
+        field_group =  await FieldGroup.findOne({where : {field_group_name}})
         if(!field_group){
-            field_group = await FieldGroub.create({field_group_slug ,  field_group_name})
+            field_group = await FieldGroup.create({field_group_slug ,  field_group_name})
         }
     }
 
@@ -45,12 +46,6 @@ exports.initaiteFormField = catchAsync(async(req , res , next)=>{
         form_field.set({form_field_name , form_field_type , form_field_search})
         await form_field.save()
     }
-
-
-
-
-  
-
     req.inst = {...req.inst  , form_field }
     next()
 })
@@ -61,8 +56,7 @@ exports.handleOptions = catchAsync(async(req , res , next)=>{
     const field_options_deleted =  req.body.field_options_deleted
 
     field_options && await Promise.all(field_options.map(async option=>{
-        await form_field.createField_option(option)
-
+        await form_field.createField_option({ field_option_value : option})
     }))
 
     field_options_deleted && await Promise.all(field_options_deleted.map(async option=>{

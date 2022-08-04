@@ -7,8 +7,8 @@ const { Op } = require("sequelize");
 /*models */
 const db = require("../server/models/index")
 const Config=  db.config
-const Region = db.region
-const Wilaya = db.wilaya
+const FieldGroup = db.field_group
+const FieldOption  = db.field_option
 
 
 
@@ -25,14 +25,14 @@ const Apifeatures = require('../utils/apiFeatures')
 
 
 
-exports.fetchRegion  = catchAsync(async(req , res , next)=>{
-    let region =  req.inst.region
-    region = await Region.findByPk(region.dataValues.region_id , {include : [Wilaya]})
+exports.fetchFieldGroup  = catchAsync(async(req , res , next)=>{
+    let field_group =  req.inst.field_group
+    field_group = await FieldGroup.findByPk(field_group.dataValues.field_group_id  )
     
     tokenInterceptor(req, res, next, {
         status: "success",
-        message: `region_modified_succefully`,
-        data : region
+        message: `field_groups_modified_succefully`,
+        data : field_group
     })
     
 })
@@ -43,43 +43,45 @@ exports.fetchRegion  = catchAsync(async(req , res , next)=>{
 
 
 
-exports.deleteRegion  = catchAsync(async(req , res , next)=>{
+exports.deleteFieldGroup  = catchAsync(async(req , res , next)=>{
     const features = new Apifeatures(req.query).filter().queryObj
-    await Region.destroy({...features})
+    await FieldGroup.destroy({...features})
+    
 
     // client_demand = await ClientDemend.destroy({where :  {client_demand_id}})
 
     tokenInterceptor(req, res, next, {
         status: "success",
-        message: `regions_deleted_succefully`
+        message: `field_groups_deleted_succefully`
     })
     
 })
 
 
-exports.getRegions = catchAsync(async(req, res , next)=>{
-    const features = new Apifeatures(req.query).filter().sort().queryObj
-
-    const regions = await Region.findAll({...features , include : [Wilaya]})
-    
-    
-    tokenInterceptor(req, res, next, {
-        status: "success",
-        message: `regions`,
-        data:  regions
-    })
-})
-
-exports.getRegion = catchAsync(async(req, res , next)=>{
+exports.getFieldGroups = catchAsync(async(req, res , next)=>{
     const features = new Apifeatures(req.query).filter().sort().paginate().queryObj
 
-    const region = await Region.findOne({...features , include : [Wilaya]})
+    const field_groups = await FieldGroup.findAll({...features})
     
     
     tokenInterceptor(req, res, next, {
         status: "success",
-        message: `region`,
-        data: region
+        message: `field_groups`,
+        data:  field_groups
+    })
+})
+
+
+exports.getFieldGroup = catchAsync(async(req, res , next)=>{
+    const features = new Apifeatures(req.query).filter().sort().paginate().queryObj
+
+    const field_group = await FieldGroup.findOne({...features })
+    
+    
+    tokenInterceptor(req, res, next, {
+        status: "success",
+        message: `field_groups`,
+        data:  field_group
     })
 })
 

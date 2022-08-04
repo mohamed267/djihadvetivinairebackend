@@ -15,11 +15,15 @@ const {
       },
       region_name: DataTypes.STRING,
       region_slug : DataTypes.STRING,
-      long_size : {
+      lat : {
         type : DataTypes.REAL,
-        defaultValue : 0
+        defaultValue : 36.4389
       },
-      lat_size : {
+      lng :{
+         type : DataTypes.REAL,
+         defaultValue : 3.3782
+      },
+      radius : {
         type : DataTypes.REAL,
         defaultValue : 0
       },
