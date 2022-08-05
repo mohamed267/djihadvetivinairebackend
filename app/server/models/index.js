@@ -19,7 +19,13 @@ try {
     database,username ,password ,
     {
       host,
-      dialect
+      dialect,
+      operatorAlias:false,
+      pool: {
+          max: 5,
+          idle: 30000,
+          acquire: 60000,
+      },
     }
   )
 }catch(error){
