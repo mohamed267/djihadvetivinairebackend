@@ -18,29 +18,31 @@ const {handleSendEmail} = require("../../../middlewares/email")
 
 const router = express.Router();
 
-
+router.route("/wilaya").get(getWilayas)
+router.route("/wilaya/single").get(getWilaya)
+router.route("/wilaya/region").get(getWilayaRegions)
+router.route('/daira').get(getDairas)
+router.route("/daira/single").get(getDaira )
+router.route("/commune").get(getCommunes)
+router.route("/commune/single").get(getCommune)
 router.use(extractToken,protect )
+
 
 /*wilaya */
 router.route("/wilaya/all").post(createWilayas)
-router.route("/wilaya").get(getWilayas)
+router.route("/wilaya/region")
 .post(initiateWilaya , fetchWilaya)
 .put(initiateWilaya , fetchWilaya)
 .delete(deleteWilaya)
-router.route('/daira').get(getDairas)
 
-router.route("/wilaya/region").get(getWilayaRegions)
 
-router.route("/wilaya/single").get(getWilaya)
-router.route("/daira/single").get(getDaira )
 /*commune */
 
-router.route("/commune").get(getCommunes)
+router.route("/commune")
 .post(initiateCommune , fetchCommune)
 .put(initiateCommune , fetchCommune)
 .delete(deleteCommune)
 
-router.route("/commune/single").get(getCommune)
 
 
 
