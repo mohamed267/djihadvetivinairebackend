@@ -14,10 +14,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "admin_al",
-    "password": "password",
-    "database": "djihadevétirinaire",
-    "host": "localhost",
+    "username": "freedb_admin_djihad",
+    "password": "WsCj@t9#&a4AfJH",
+    "database": "freedb_gjihadvetirinaire",
+    "host": "sql.freedb.tech",
     "dialect": "mysql"
   }
 }
