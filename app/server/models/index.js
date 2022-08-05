@@ -7,7 +7,7 @@
 const { Sequelize } = require('sequelize');
 const ormConfig = require("../config/config.json")
 
-const NODE_ENV = process.env.NODE_ENV;
+const NODE_ENV = process.env.NODE_ENV ? process.env.NODE_ENV : "development";
 
 console.log("our node env ",NODE_ENV)
 
