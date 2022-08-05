@@ -2,7 +2,7 @@
 
 
 
-
+ 
 
 const { Sequelize } = require('sequelize');
 const ormConfig = require("../config/config.json")
