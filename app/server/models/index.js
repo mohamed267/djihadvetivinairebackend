@@ -9,6 +9,8 @@ const ormConfig = require("../config/config.json")
 
 const NODE_ENV = process.env.NODE_ENV;
 
+console.log("our node env ",NODE_ENV)
+
 const   {username ,password,database,host,dialect} =  ormConfig[NODE_ENV]
 let sequelize = null;
 
